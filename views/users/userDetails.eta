@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>HTMX Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.16/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="/styles/global-styles.css" rel="stylesheet">
+  <script src="https://unpkg.com/htmx.org@1.9.8"></script>
+  <script defer src="/scripts/homePageTableData.js"></script>
+</head>
+<body>
+<main class="fade-in">
+  <div class="my-8 p-4 max-w-4xl mx-auto">
+    <a class="link link-hover link-secondary"
+       href="/"
+    >Go back</a>
+  </div>
+  <div class="my-8 p-4 max-w-4xl mx-auto border-solid border-2 border-sky-500">
+    <div class="avatar">
+      <div class="w-60 rounded-full">
+        <img alt="image of <%= it.user.firstName %> <%= it.user.lastName %>" src="<%= it.user.avatarUrl %>" />
+      </div>
+    </div>
+    <div>
+      <h1 class="font-bold text-3xl mt-8"><%= it.user.firstName %> <%= it.user.lastName %></h1>
+      <p><%= it.user.email %></p>
+      <p><%= it.user.phoneNumber %></p>
+    </div>
+  </div>
+</main>
+</body>
+</html>

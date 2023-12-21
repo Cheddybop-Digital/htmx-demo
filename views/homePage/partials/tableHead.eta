@@ -1,0 +1,62 @@
+<div class="th-container-<%= it.field %>">
+  <form
+    class="search-form-<%= it.field %>"
+    hx-get="/users"
+    hx-on="submit: tableData.submitHandler('<%= it.field %>')"
+    hx-target="#table"
+    hx-vals="js:{
+      sortDir: tableData.getSortDir(),
+      sortField: tableData.getSortField(),
+      searchTerm: Array.from(document.forms).find(f => f.name === 'search-form-<%= it.field %>')?.searchTerm?.value,
+      searchField: '<%= it.field %>'
+    }"
+    name="search-form-<%= it.field %>"
+  >
+    <label class="search-label" for="<%= it.field %>"><%= it.label %></label>
+    <input class="input input-bordered input-xs max-w-xs"
+           id="<%= it.field %>" name="searchTerm" type="text" />
+  </form>
+  <button
+    onclick="tableData.searchIconClickHandler('<%= it.field %>')"
+    type="button">
+    <img
+      alt="search-<%= it.field %>"
+      src="/icons/search.svg"
+      style="width: 18px; min-width: 18px; margin-inline: 10px;"
+    />
+  </button>
+  <div
+    class="sorters"
+    hx-get="/users"
+    hx-swap="innerHTML"
+    hx-target="#table"
+    hx-vals="js:{
+      sortDir: tableData.toggleSort(),
+      sortField: '<%= it.field %>',
+      searchField: tableData.getSearchField(),
+      searchTerm: tableData.getSearchTerm()
+    }"
+  >
+    <span
+      class="chevron-up <%= it.sortDir === 'asc' && it.sortField === it.field ? 'active-sort' : '' %>">
+    <svg height="15px"
+         version="1.1"
+         viewBox="0 0 100 100"
+         width="15px"
+         xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="m75.613 59.684-23.531-23.531c-0.55078-0.55078-1.3008-0.86328-2.082-0.86328s-1.5312 0.3125-2.082 0.86328l-23.531 23.531c-1.1484 1.1484-1.1484 3.0117 0 4.1641 1.1523 1.1484 3.0156 1.1484 4.168 0l21.445-21.453 21.445 21.453c1.1523 1.1484 3.0156 1.1484 4.168 0 1.1484-1.1523 1.1484-3.0156 0-4.1641z" />
+    </svg>
+    </span>
+    <span class="chevron-down <%= it.sortDir === 'desc' && it.sortField === 'it.field' ? 'active-sort' : '' %>">
+    <svg height="15px"
+         version="1.1"
+         viewBox="0 0 100 100"
+         width="15px"
+         xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="m75.613 36.152c-0.55469-0.55078-1.3008-0.86328-2.082-0.86328s-1.5312 0.3125-2.0859 0.86328l-21.445 21.453-21.445-21.453c-1.1523-1.1484-3.0156-1.1484-4.168 0-1.1484 1.1523-1.1484 3.0156 0 4.1641l23.531 23.531c0.55078 0.55078 1.3008 0.86328 2.082 0.86328s1.5312-0.3125 2.082-0.86328l23.531-23.531c0.55078-0.55078 0.86328-1.3008 0.86328-2.082s-0.3125-1.5312-0.86328-2.082z" />
+    </svg>
+    </span>
+  </div>
+</div>
