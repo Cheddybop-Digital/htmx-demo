@@ -52,10 +52,12 @@
       class="btn btn-square btn-outline btn-xs mx-1 mt-2 <%= it.offset === index * 20  ? 'btn-active' : '' %>"
       hx-get="/users"
       hx-target="#table"
+      hx-push-url="true"
       hx-vals="js:{'offset': <%= index * 20 %>, limit: '20' ,'sortDir': tableData.getSortDir(), sortField: tableData.getSortField(), searchTerm: tableData.getSearchTerm(), searchField: tableData.getSearchField()}"
     >
       <%= index + 1 %>
     </a>
     <% }) %>
   </div>
+  <lit-pagination page=1 total=101 limit=10 size=2></lit-pagination>
 </div>
