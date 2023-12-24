@@ -1,63 +1,59 @@
 <div class="overflow-x-auto" id="table">
-  <div class="flex items-baseline mt-2">
-    <p class="mt-8 mr-2"> <%= it.rangeMessage %></p>
-    <% /* the button below has style="animation: none;" to prevent */ %>
-    <% /* bouncing with every http request */ %>
-    <button
-      class="btn btn-secondary btn-xs mb-4"
-      hx-get="/users"
-      hx-swap="outerHTML transition:true"
-      hx-target="#table"
-      onclick="tableData.clearFilters()"
-      style="animation: none;"
-    >Clear filters
-    </button>
-  </div>
-  <table class="table user-table border-solid border-2">
-    <thead>
-    <tr>
-      <th>Avatar</th>
-      <th>
-        <%~ include('./tableHead.eta', {label: 'First Name', field: 'firstName'}) %>
-      </th>
-      <th>
-        <div class="th-container">
-          <%~ include('./tableHead.eta', {label: 'Last Name', field: 'lastName'}) %>
-        </div>
-      </th>
-      <th>
-        <div class="th-container">
-          <%~ include('./tableHead.eta', {label: 'Email', field: 'email'}) %>
-        </div>
-      </th>
-      <th>
-        <div class="th-container">
-          <%~ include('./tableHead.eta', {label: 'Phone', field: 'phoneNumber'}) %>
-        </div>
-      </th>
-    </tr>
-    </thead>
-    <tbody class="fade-in">
-    <% it.records.forEach(function(user){ %>
-    <%~ include('./userRow.eta', {user}) %>
-    <% }) %>
-    </tbody>
-  </table>
-  <div class="flex justify-center">
-    <% Array.from({ length: Math.ceil(it.total / it.count) }, (value, index) => index).forEach(function(count,
-    index){
-    %>
-    <!--    NOTE: offset is hardcoded in the hx-vals directive-->
-    <a
-      class="btn btn-square btn-outline btn-xs mx-1 mt-2 <%= it.offset === index * 20  ? 'btn-active' : '' %>"
-      hx-get="/users"
-      hx-target="#table"
-      hx-push-url="true"
-      hx-vals="js:{'offset': <%= index * 20 %>, limit: '20' ,'sortDir': tableData.getSortDir(), sortField: tableData.getSortField(), searchTerm: tableData.getSearchTerm(), searchField: tableData.getSearchField()}"
-    >
-      <%= index + 1 %>
-    </a>
-    <% }) %>
-  </div>
-  <lit-pagination page=1 total=101 limit=10 size=2></lit-pagination>
+    <div class="flex items-baseline mt-2">
+        <p class="mt-8 mr-2"> <%= it.rangeMessage %></p>
+        <% /* the button below has style="animation: none;" to prevent */ %>
+        <% /* bouncing with every http request */ %>
+        <button
+                class="btn btn-secondary btn-xs mb-4"
+                hx-get="/users"
+                hx-swap="outerHTML transition:true"
+                hx-target="#table"
+                onclick="tableData.clearFilters()"
+                style="animation: none;"
+        >Clear filters
+        </button>
+    </div>
+    <table class="table user-table border-solid border-2">
+        <thead>
+        <tr>
+            <th>Avatar</th>
+            <th>
+                <% ~ include('./tableHead.eta', { label: 'First Name', field: 'firstName', limit: it.count, offset: it.offset }) %>
+            </th>
+            <th>
+                <div class="th-container">
+                    <% ~ include('./tableHead.eta', { label: 'Last Name', field: 'lastName', limit: it.count, offset: it.offset }) %>
+                </div>
+            </th>
+            <th>
+                <div class="th-container">
+                    <% ~ include('./tableHead.eta', { label: 'Email', field: 'email', limit: it.count, offset: it.offset }) %>
+                </div>
+            </th>
+            <th>
+                <div class="th-container">
+                    <% ~ include('./tableHead.eta', { label: 'Phone', field: 'phoneNumber', limit: it.count, offset: it.offset }) %>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody class="fade-in">
+        <% it.records.forEach(function(user){ %>
+        <% ~ include('./userRow.eta', { user }) %>
+        <% }) %>
+        </tbody>
+    </table>
+    <div class="flex justify-center">
+        <lit-pagination
+                sortDir="<%= it.sortDir %>"
+                sortField="<%= it.sortField %>"
+                searchTerm="<%= it.searchTerm %>"
+                searchField="<%= it.searchField %>"
+                total=<%= it.total %>
+                limit=<%= it.count %>
+                offset=<%= it.offset %>
+                page=<%= (it.offset + 20) / it.count %>
+                size=4>
+        </lit-pagination>
+    </div>
 </div>

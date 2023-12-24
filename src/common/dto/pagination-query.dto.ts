@@ -12,7 +12,7 @@ export class PaginationQueryDto {
   offset: number = 0;
 
   @IsOptional()
-  sortDir: "asc" | "desc";
+  sortDir: "asc" | "desc" | "";
 
   @IsOptional()
   sortField: FieldsType;

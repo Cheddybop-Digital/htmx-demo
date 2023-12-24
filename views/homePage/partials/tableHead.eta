@@ -2,13 +2,16 @@
   <form
     class="search-form-<%= it.field %>"
     hx-get="/users"
-    hx-on="submit: tableData.submitHandler('<%= it.field %>')"
+    hx-push-url="true"
+    onsubmit="tableData.submitHandler(event, '<%= it.field %>')"
     hx-target="#table"
     hx-vals="js:{
       sortDir: tableData.getSortDir(),
       sortField: tableData.getSortField(),
       searchTerm: Array.from(document.forms).find(f => f.name === 'search-form-<%= it.field %>')?.searchTerm?.value,
-      searchField: '<%= it.field %>'
+      searchField: '<%= it.field %>',
+      limit: '<%= it.limit %>',
+      offset: '<%= it.offset %>',
     }"
     name="search-form-<%= it.field %>"
   >
@@ -27,6 +30,8 @@
   </button>
   <div
     class="sorters"
+    hx-on="click: tableData.setSortField('<%= it.field %>')"
+    hx-push-url="true"
     hx-get="/users"
     hx-swap="innerHTML"
     hx-target="#table"
