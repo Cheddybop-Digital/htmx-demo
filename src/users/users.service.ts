@@ -8,8 +8,8 @@ import { User } from "./entities/user.entity";
 import { createRangeMessage } from "./utils";
 
 type FindOptionsType = {
-  skip: number;
-  take: number;
+  skip?: number;
+  take?: number;
   order?: Record<string, string>;
   where?: Record<string, FindOperator<any>>;
 };
@@ -28,10 +28,18 @@ export class UsersService {
     records: User[];
     sortField: string;
     sortDir: string;
+    searchField: string;
+    searchTerm: string;
     rangeMessage: string;
   }> {
-    const { limit, offset, sortDir, sortField, searchField, searchTerm } =
-      paginationQuery;
+    const {
+      limit,
+      offset,
+      sortDir = "",
+      sortField = "",
+      searchField = "",
+      searchTerm = "",
+    } = paginationQuery;
 
     const total = await this.usersRepository.count(
       searchTerm
@@ -44,10 +52,15 @@ export class UsersService {
     );
 
     // pagination
-    let findOptions: FindOptionsType = {
-      skip: offset,
-      take: limit,
+    const findOptions: FindOptionsType = {
+      where: null,
+      order: null,
     };
+
+    if (offset) {
+      findOptions.skip = offset;
+      findOptions.take = limit;
+    }
 
     // sorting
     if (!!sortDir && !!sortField) {
@@ -80,6 +93,8 @@ export class UsersService {
       count: limit,
       offset,
       records,
+      searchField,
+      searchTerm,
       sortField,
       sortDir,
       rangeMessage,

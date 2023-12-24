@@ -1,117 +1,124 @@
+// eslint-disable-file
 // modified version of this: https://github.com/Klaudeta/lit-pagination
-import { html, css, LitElement } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
+import {
+  html,
+  css,
+  LitElement,
+} from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
+import "https://unpkg.com/htmx.org@1.9.9";
 
 class LitPagination extends LitElement {
-
   static get styles() {
     return css`
-        :host {
-            display: block;
-            font-size: 14px;
-        }
+      :host {
+        display: block;
+        font-size: 14px;
+      }
 
-        div.paginator-page-container {
-            display: block;
-            @apply --layout-horizontal;
-            @apply --layout-center;
-            @apply --layout-center-justified;
-            @apply --layout-center-center;
-        }
+      :host div.pagination-container {
+        height: 40px;
+      }
 
-        :host button {
-            margin: 0px 4px;
-            padding: 2px 8px;
-            /*margin: 0px;*/
-            position: relative;
-            min-width: 30px;
-            outline: none;
-            border: 1px solid #000000;
+      :host button {
+        margin: 0 4px;
+        padding: 2px 8px;
+        position: relative;
+        min-width: 30px;
+        outline: none;
+        border: 1px solid #000000;
+        cursor: pointer;
+        color: #000000;
+        background-color: transparent;
+        border-radius: 6px;
+      }
 
-        }
+      :host button:disabled {
+        color: #000000;
+        background-color: gray;
+      }
 
-        :host button {
-            color: #000000;
-            background-color: transparent;
-            border-radius: 16px;
-        }
+      :host button.active {
+        background-color: black;
+        color: #ffffff;
+      }
 
-        :host span {
-            margin: 0px 4px;
-        }`;
+      :host span {
+        margin: 0 4px;
+      }
+    `;
   }
-
 
   static get properties() {
     return {
       sortDir: {
         type: String,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       sortField: {
         type: String,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       searchField: {
         type: String,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       searchTerm: {
         type: String,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       offset: {
         type: Number,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       /** Per-page limit of the elements. */
       limit: {
         type: Number,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       /** Total count of the elements. */
       total: {
         type: Number,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       /** Current page. */
       page: {
         type: Number,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       /** Count of the pages displayed before or after the current page. */
       size: {
         type: Number,
         reflect: true,
-        attribute: true
+        attribute: true,
       },
       /** Number of paginated pages. */
       pages: {
-        type: Number
+        type: Number,
       },
       /** Has pages before the current page. */
       hasBefore: {
-        type: Boolean
+        type: Boolean,
       },
       /** Has pages after the current page. */
       hasNext: {
-        type: Boolean
+        type: Boolean,
       },
       /** Has pages. */
       hasPages: {
-        type: Boolean
+        type: Boolean,
       },
       /** Displayed page elements */
       items: {
-        type: Array
-      }
+        type: Array,
+      },
     };
   }
 
@@ -122,6 +129,10 @@ class LitPagination extends LitElement {
     this.size = 2;
     this.items = {};
     this.total = 20;
+    this.sortDir = "";
+    this.sortField = "";
+    this.searchField = "";
+    this.searchTerm = "";
     this.hasBefore = this.computeBefore(this.page, this.pages);
     this.hasNext = this.computeNext(this.page, this.pages);
     this.hasPages = this.computeHasPage(this.items.size, this.total);
@@ -130,8 +141,7 @@ class LitPagination extends LitElement {
 
   set page(val) {
     let oldVal = this._page;
-    this._page = val;
-    this.requestUpdate("page", oldVal);
+    this._page = Math.ceil(val);
     this.onPageChange(this._page, oldVal);
     this.observePageCount(this._page, this.limit, this.total);
   }
@@ -141,9 +151,7 @@ class LitPagination extends LitElement {
   }
 
   set limit(val) {
-    let oldVal = this._limit;
     this._limit = val;
-    this.requestUpdate("limit", oldVal);
     this.observePageCount(this.page, this._limit, this.total);
   }
 
@@ -152,9 +160,7 @@ class LitPagination extends LitElement {
   }
 
   set total(val) {
-    let oldVal = this._total;
     this._total = val;
-    this.requestUpdate("total", oldVal);
     this.observePageCount(this.page, this.limit, this._total);
   }
 
@@ -163,10 +169,7 @@ class LitPagination extends LitElement {
   }
 
   set size(val) {
-    let oldVal = this._size;
     this._size = val;
-    this.requestUpdate("size", oldVal);
-
   }
 
   get size() {
@@ -174,9 +177,8 @@ class LitPagination extends LitElement {
   }
 
   render() {
-    console.log("lenny", tableData)
     return html`
-      <div name="pagination-icons" size="24">
+      <div class="pagination-container">
         <svg>
           <defs>
             <g id="fast-forward">
@@ -194,47 +196,78 @@ class LitPagination extends LitElement {
           </defs>
         </svg>
       </div>
-      <div class="paginator-page-container" ?hidden="${!this.hasPage}">
-        <button @click="${event => this.onBegin()}" ${this.hasBefore ? "inline-block" : "none"}
-        ">
-        <img width="${this.iconSize}" src="/icons/double-chevron-left.svg" />
+      <div>
+        <button
+          @click=${() => this.onBegin()}
+          style=${this.hasBefore ? "display: inline-block" : "display: none"}
+        >
+          <img width="${this.iconSize}" src="/icons/double-chevron-left.svg" />
         </button>
-        <button @click="${event => this.onBefore()}" ${this.hasBefore ? "inline-block" : "none"}
-        ">
-        <img width="${this.iconSize}" src="/icons/chevron-left.svg" />
+        <button
+          @click=${() => this.onBefore()}
+          style=${this.hasBefore ? "display: inline-block" : "display: none"}
+        >
+          <img width="${this.iconSize}" src="/icons/chevron-left.svg" />
         </button>
         <span>Page</span>
-        ${this.items.map(item => html`
-          <button
-            raised="${!this.isCurrent(item, this.page)}"
-            ?disabled="${this.isCurrent(item, this.page)}"
-            @click="${async (event) => {
-              this.onChange(item);
-              try {
-                const res = await fetch(`/users`);
-                console.log(res);
-              } catch (error) {
-                console.log(error);
-              }
-            }}"
-          >
-            ${item}
-          </button>
-        `)}
+        ${this.items.map(
+          (item) => html`
+            <button
+              class=${this.offset === (item - 1) * 20 ? "active" : ""}
+              @click=${async () => {
+                this.onChange(item);
+                try {
+                  const url = this.createUrl(item);
+                  const res = await fetch(url, {
+                    method: "GET",
+                    headers: {
+                      "HX-Request": true,
+                    },
+                  });
+                  const data = await res.text();
+                  const table = document.getElementById("table");
+                  table.outerHTML = data;
+
+                  // TODO: update the url without page load
+                  window.history.pushState({}, "HTMX Demo", url);
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+            >
+              ${item}
+            </button>
+          `,
+        )}
 
         <span>of</span>
         ${this.pages}
-        <button @click=${event => this.onNext()} style="display: ${this.hasNext ? "inline-block" : "none"}">
+        <button
+          @click=${() => this.onNext()}
+          style=${this.hasNext ? "display: inline-block" : "display: none"}
+        >
           <img width="${this.iconSize}" src="/icons/chevron-right.svg" />
         </button>
-        <button @click=${event => this.onEnd()} ${this.hasNext ? "inline-block" : "none"}
-        ">
-        <img width="${this.iconSize}" src="/icons/double-chevron-right.svg" />
+        <button
+          @click=${() => this.onEnd()}
+          style=${this.hasBefore ? "display: inline-block" : "display: none"}
+        >
+          <img width="${this.iconSize}" src="/icons/double-chevron-right.svg" />
         </button>
       </div>
     `;
   }
 
+  createUrl(index) {
+    const url = new URL("/users", location);
+    if (this.sortDir) url.searchParams.set("sortDir", this.sortDir);
+    if (this.sortField) url.searchParams.set("sortField", this.sortField);
+    if (this.searchField) url.searchParams.set("searchField", this.searchField);
+    if (this.searchTerm) url.searchParams.set("searchTerm", this.searchTerm);
+    url.searchParams.set("limit", "20");
+    url.searchParams.set("offset", `${(index - 1) * 20}`);
+    return url;
+  }
 
   computeBefore(page, pages) {
     return page > 1;
@@ -250,13 +283,14 @@ class LitPagination extends LitElement {
 
   observePageCount(page, limit, total) {
     if (limit && total) {
-      this.pages = parseInt(Math.ceil(parseFloat(total) / parseFloat(limit)));
+      this.pages = Math.ceil(total / limit);
     }
 
     if (page && limit && total) {
       let items = [];
       let firstIndex = this._firstIndex(page, this.size);
       let lastIndex = this._lastIndex(page, this.size);
+
       for (var num = firstIndex; num <= lastIndex; num++) {
         items.push(num);
       }
@@ -265,7 +299,11 @@ class LitPagination extends LitElement {
   }
 
   onPageChange(newValue, oldValue) {
-    this.dispatchEvent(new CustomEvent("page-change", { detail: { newPage: newValue, oldPage: oldValue } }));
+    this.dispatchEvent(
+      new CustomEvent("page-change", {
+        detail: { newPage: newValue, oldPage: oldValue },
+      }),
+    );
   }
 
   _firstIndex(page, size) {
@@ -287,31 +325,28 @@ class LitPagination extends LitElement {
   }
 
   isCurrent(index, page) {
-    return index == page;
+    return index === page;
   }
 
   onChange(item) {
     this.page = item;
-    this.requestUpdate();
   }
 
-  onBefore(event) {
+  onBefore() {
     this.page = this.page > 0 ? this.page - 1 : 1;
   }
 
-  onNext(event) {
+  onNext() {
     this.page = this.page < this.pages ? parseInt(this.page) + 1 : this.pages;
   }
 
-  onBegin(event) {
+  onBegin() {
     this.page = 1;
   }
 
-  onEnd(event) {
+  onEnd() {
     this.page = this.pages;
   }
-
-
 }
 
 customElements.define("lit-pagination", LitPagination);
