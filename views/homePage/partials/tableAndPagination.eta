@@ -18,21 +18,21 @@
         <tr>
             <th>Avatar</th>
             <th>
-                <% ~ include('./tableHead.eta', { label: 'First Name', field: 'firstName', limit: it.count, offset: it.offset }) %>
+                <% ~ include('./tableHead.eta', { label: 'First Name', field: 'firstName', limit: it.count, offset: it.offset, sortDir: it.sortDir, sortField: it.sortField, searchField: it.searchField, searchTerm: it.searchTerm }) %>
             </th>
             <th>
                 <div class="th-container">
-                    <% ~ include('./tableHead.eta', { label: 'Last Name', field: 'lastName', limit: it.count, offset: it.offset }) %>
+                    <% ~ include('./tableHead.eta', { label: 'Last Name', field: 'lastName', limit: it.count, offset: it.offset, sortDir: it.sortDir, sortField: it.sortField, searchField: it.searchField, searchTerm: it.searchTerm }) %>
                 </div>
             </th>
             <th>
                 <div class="th-container">
-                    <% ~ include('./tableHead.eta', { label: 'Email', field: 'email', limit: it.count, offset: it.offset }) %>
+                    <% ~ include('./tableHead.eta', { label: 'Email', field: 'email', limit: it.count, offset: it.offset, sortDir: it.sortDir, sortField: it.sortField, searchField: it.searchField, searchTerm: it.searchTerm }) %>
                 </div>
             </th>
             <th>
                 <div class="th-container">
-                    <% ~ include('./tableHead.eta', { label: 'Phone', field: 'phoneNumber', limit: it.count, offset: it.offset }) %>
+                    <% ~ include('./tableHead.eta', { label: 'Phone', field: 'phoneNumber', limit: it.count, offset: it.offset, sortDir: it.sortDir, sortField: it.sortField, searchField: it.searchField, searchTerm: it.searchTerm }) %>
                 </div>
             </th>
         </tr>

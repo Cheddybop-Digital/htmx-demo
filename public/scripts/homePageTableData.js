@@ -5,44 +5,45 @@ const startingSort = "";
 
 // * add data and functions/behavior to the namespace
 tableData = {
-  sortDir: startingSort,
-  sortField: "",
-  searchField: "",
-  searchTerm: "",
-  setSearchTerm(term) {
-    this.searchTerm = term;
+  _sortDir: startingSort,
+  _sortField: "",
+  _searchField: "",
+  _searchTerm: "",
+
+  get sortDir() {
+    return this._sortDir;
   },
-  getSearchTerm() {
-    return this.searchTerm;
+  set sortDir(val) {
+    this._sortDir = val;
   },
-  getSortDir() {
-    return this.sortDir;
+  set sortField(field) {
+    this._sortField = field;
   },
-  setSortField(field) {
-    this.sortField = field;
+  get sortField() {
+    return this._sortField;
   },
-  getSortField() {
-    return this.sortField;
+  get searchField() {
+    return this._searchField;
   },
-  getSearchField() {
-    return this.searchField;
+  set searchField(field) {
+    this._searchField = field;
   },
-  setSearchField(field) {
-    this.searchField = field;
+  get searchTerm() {
+    return this._searchTerm;
   },
-  setSortDir(value) {
-    this.sortDir = value;
+  set searchTerm(val) {
+    this._searchTerm = val;
   },
   toggleSort() {
-    switch (this.sortDir) {
+    switch (this._sortDir) {
       case "asc":
-        this.sortDir = "desc";
+        this._sortDir = "desc";
         return this.sortDir;
       case "desc":
-        this.sortDir = startingSort;
+        this._sortDir = startingSort;
         return this.sortDir;
       case startingSort:
-        this.sortDir = "asc";
+        this._sortDir = "asc";
         return this.sortDir;
       default:
         return this.sortDir;
@@ -57,28 +58,26 @@ tableData = {
     }
   },
   searchIconClickHandler(field) {
-    this.setSearchField(field);
+    this._searchField = field;
     this.toggleSearchInput(field);
   },
   submitHandler(event, field) {
     event.preventDefault();
 
-    const searchTerm = Array.from(document.forms).find(
+    // set the search term, so it isn't lost when sorting changes
+    tableData._searchTerm = Array.from(document.forms).find(
       (f) => f.name === `search-form-${field}`,
     )?.searchTerm?.value;
 
-    // set the search term, so it isn't lost when sorting changes
-    tableData.setSearchTerm(searchTerm);
-
     // set the sortField
-    tableData.setSortField(field);
+    tableData._sortField = field;
   },
   clearFilters() {
     // clear data
-    this.setSearchTerm("");
-    this.setSearchField("");
-    this.setSortDir("");
-    this.setSortField("");
+    this._searchTerm = "";
+    this._searchField = "";
+    this._sortDir = "";
+    this._sortField = "";
 
     // reset the url
     const url = new URL(window.location);

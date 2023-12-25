@@ -30,7 +30,6 @@
   </button>
   <div
     class="sorters"
-    hx-on="click: tableData.setSortField('<%= it.field %>')"
     hx-push-url="true"
     hx-get="/users"
     hx-swap="innerHTML"
@@ -38,8 +37,8 @@
     hx-vals="js:{
       sortDir: tableData.toggleSort(),
       sortField: '<%= it.field %>',
-      searchField: tableData.getSearchField(),
-      searchTerm: tableData.getSearchTerm()
+      searchField: '<%= it.searchField %>',
+      searchTerm: '<%= it.searchTerm %>'
     }"
   >
     <span
