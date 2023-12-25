@@ -6,8 +6,8 @@
     onsubmit="tableData.submitHandler(event, '<%= it.field %>')"
     hx-target="#table"
     hx-vals="js:{
-      sortDir: tableData.getSortDir(),
-      sortField: tableData.getSortField(),
+      sortDir: '<%= it.sortDir %>',
+      sortField: '<%= it.sortField %>',
       searchTerm: Array.from(document.forms).find(f => f.name === 'search-form-<%= it.field %>')?.searchTerm?.value,
       searchField: '<%= it.field %>',
       limit: '<%= it.limit %>',

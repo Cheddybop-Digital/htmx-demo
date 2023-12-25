@@ -83,7 +83,7 @@ tableData = {
     // reset the url
     const url = new URL(window.location);
     // remove all query params by reverting url to origin only
-    window.location.replace(url.origin);
+    window.location.replace(`${url.origin}/users`);
   },
 };
 

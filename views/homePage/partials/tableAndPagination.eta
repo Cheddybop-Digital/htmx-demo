@@ -1,4 +1,4 @@
-<div class="overflow-x-auto" id="table">
+<div class="overflow-x-auto min-h-[100vh]" id="table">
     <div class="flex items-baseline mt-2">
         <p class="mt-8 mr-2"> <%= it.rangeMessage %></p>
         <% /* the button below has style="animation: none;" to prevent */ %>

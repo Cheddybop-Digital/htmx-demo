@@ -30,6 +30,11 @@ class LitPagination extends LitElement {
         color: #000000;
         background-color: transparent;
         border-radius: 6px;
+        transition: all 200ms;
+      }
+
+      :host button:hover {
+        transform: scale(1.1);
       }
 
       :host button:disabled {
