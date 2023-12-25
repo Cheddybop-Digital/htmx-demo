@@ -13,7 +13,7 @@
     <script type="module" src="/scripts/lit-pagination.js"></script>
 </head>
 <body>
-<main class="my-8 p-4 mx-auto">
+<main class="my-8 p-8 mx-auto">
     <button class="btn btn-primary"
             onclick="user_create_modal.showModal()">
         Add User!
