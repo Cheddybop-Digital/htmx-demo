@@ -5,6 +5,12 @@ div#lit-pagination-container {
     font-size: 14px;
 }
 
+div#lit-pagination-container .page-button-container {
+    min-width: 220px;
+    display: inline-block;
+    text-align: center;
+}
+
 div#lit-pagination-container button {
     margin: 0 4px;
     padding: 2px 8px;

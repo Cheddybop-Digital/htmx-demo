@@ -80,10 +80,11 @@ class LitPagination extends LitElement {
 
   constructor() {
     super();
-    this.limit = 2;
-    this.page = 2;
+    // default values
+    this.limit = 20;
+    this.page = 1;
     this.size = 2;
-    this.items = {};
+    this.items = [];
     this.total = 20;
     this.sortDir = "";
     this.sortField = "";
@@ -91,14 +92,12 @@ class LitPagination extends LitElement {
     this.searchTerm = "";
     this.hasBefore = this.computeBefore(this.page, this.pages);
     this.hasNext = this.computeNext(this.page, this.pages);
-    this.hasPages = this.computeHasPage(this.items.size, this.total);
+    this.hasPages = this.computeHasPage(this.items.length, this.total);
     this.iconSize = "12px";
   }
 
   set page(val) {
-    let oldVal = this._page;
     this._page = Math.ceil(val);
-    this.onPageChange(this._page, oldVal);
     this.observePageCount(this._page, this.limit, this.total);
   }
 
@@ -138,7 +137,6 @@ class LitPagination extends LitElement {
       <div id="lit-pagination-container">
         <button
           @click=${() => this.onBegin()}
-          style=${this.hasBefore ? "display: inline-block" : "display: none"}
         >
           <img
             alt="show first pagination buttons"
@@ -148,7 +146,6 @@ class LitPagination extends LitElement {
         </button>
         <button
           @click=${() => this.onBefore()}
-          style=${this.hasBefore ? "display: inline-block" : "display: none"}
         >
           <img
             alt="shift pagination buttons back by one"
@@ -157,27 +154,28 @@ class LitPagination extends LitElement {
           />
         </button>
         <span>Page</span>
-        ${this.items.map((item) => {
-          return html`
-            <button
-              class=${this.offset === (item - 1) * 20
-                ? "lit-pagination-btn active"
-                : "lit-pagination-btn"}
-              hx-on="click: () => this.onChange(item)"
-              hx-get="${this.createUrl(item)}"
-              hx-push-url="true"
-              hx-target="#table"
-            >
-              ${item}
-            </button>
-          `;
-        })}
+        <div class="page-button-container"">
+          ${this.items.map((item) => {
+            return html`
+              <button
+                class=${this.offset === (item - 1) * 20
+                  ? "lit-pagination-btn active"
+                  : "lit-pagination-btn"}
+                hx-on="click: () => this.onChange(item)"
+                hx-get="${this.createUrl(item)}"
+                hx-push-url="true"
+                hx-target="#table"
+              >
+                ${item}
+              </button>
+            `;
+          })}
+        </div>
 
         <span>of</span>
         ${this.pages}
         <button
           @click=${() => this.onNext()}
-          style=${this.hasNext ? "display: inline-block" : "display: none"}
         >
           <img
             alt="shift pagination buttons forward by one"
@@ -187,7 +185,6 @@ class LitPagination extends LitElement {
         </button>
         <button
           @click=${() => this.onEnd()}
-          style=${this.hasBefore ? "display: inline-block" : "display: none"}
         >
           <img
             alt="show last pagination buttons"
@@ -245,19 +242,11 @@ class LitPagination extends LitElement {
       let firstIndex = this._firstIndex(page, this.size);
       let lastIndex = this._lastIndex(page, this.size);
 
-      for (var num = firstIndex; num <= lastIndex; num++) {
+      for (let num = firstIndex; num <= lastIndex; num++) {
         items.push(num);
       }
       this.items = items;
     }
-  }
-
-  onPageChange(newValue, oldValue) {
-    this.dispatchEvent(
-      new CustomEvent("page-change", {
-        detail: { newPage: newValue, oldPage: oldValue },
-      }),
-    );
   }
 
   _firstIndex(page, size) {
@@ -270,7 +259,7 @@ class LitPagination extends LitElement {
   }
 
   _lastIndex(page, size) {
-    let index = parseInt(page) + parseInt(size);
+    let index = Math.ceil(page) + Math.ceil(size);
     if (index > this.pages) {
       return this.pages;
     } else {
@@ -284,10 +273,21 @@ class LitPagination extends LitElement {
 
   onBefore() {
     this.page = this.page > 0 ? this.page - 1 : 1;
+    this.makePaginationRequest();
+  }
+
+  makePaginationRequest() {
+    const btns = document.querySelectorAll(".lit-pagination-btn");
+    btns.forEach((btn) => {
+      if (btn.innerText === `${this.page}`) {
+        btn.click();
+      }
+    });
   }
 
   onNext() {
-    this.page = this.page < this.pages ? parseInt(this.page) + 1 : this.pages;
+    this.page = this.page < this.pages ? Math.ceil(this.page) + 1 : this.pages;
+    this.makePaginationRequest();
   }
 
   onBegin() {
