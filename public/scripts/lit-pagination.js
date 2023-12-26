@@ -8,125 +8,121 @@ import {
 import "https://unpkg.com/htmx.org@1.9.9";
 
 class LitPagination extends LitElement {
-  static get styles() {
-    return css`
-      :host {
-        display: block;
-        font-size: 14px;
-      }
+  static styles = css`
+    :host {
+      display: block;
+      font-size: 14px;
+    }
 
-      :host div.pagination-container {
-        height: 40px;
-        margin-top: 30px;
-      }
+    :host div.pagination-container {
+      height: 40px;
+      margin-top: 30px;
+    }
 
-      :host button {
-        margin: 0 4px;
-        padding: 2px 8px;
-        position: relative;
-        min-width: 30px;
-        outline: none;
-        border: 1px solid #000000;
-        cursor: pointer;
-        color: #000000;
-        background-color: transparent;
-        border-radius: 6px;
-        transition: all 200ms;
-      }
+    :host button {
+      margin: 0 4px;
+      padding: 2px 8px;
+      position: relative;
+      min-width: 30px;
+      outline: none;
+      border: 1px solid #000000;
+      cursor: pointer;
+      color: #000000;
+      background-color: transparent;
+      border-radius: 6px;
+      transition: all 200ms;
+    }
 
-      :host button:hover {
-        transform: scale(1.1);
-      }
+    :host button:hover {
+      transform: scale(1.1);
+    }
 
-      :host button:disabled {
-        color: #000000;
-        background-color: gray;
-      }
+    :host button:disabled {
+      color: #000000;
+      background-color: gray;
+    }
 
-      :host button.active {
-        background-color: black;
-        color: #ffffff;
-      }
+    :host button.active {
+      background-color: black;
+      color: #ffffff;
+    }
 
-      :host span {
-        margin: 0 4px;
-      }
-    `;
-  }
+    :host span {
+      margin: 0 4px;
+    }
+  `;
 
-  static get properties() {
-    return {
-      sortDir: {
-        type: String,
-        reflect: true,
-        attribute: true,
-      },
-      sortField: {
-        type: String,
-        reflect: true,
-        attribute: true,
-      },
-      searchField: {
-        type: String,
-        reflect: true,
-        attribute: true,
-      },
-      searchTerm: {
-        type: String,
-        reflect: true,
-        attribute: true,
-      },
-      offset: {
-        type: Number,
-        reflect: true,
-        attribute: true,
-      },
-      /** Per-page limit of the elements. */
-      limit: {
-        type: Number,
-        reflect: true,
-        attribute: true,
-      },
-      /** Total count of the elements. */
-      total: {
-        type: Number,
-        reflect: true,
-        attribute: true,
-      },
-      /** Current page. */
-      page: {
-        type: Number,
-        reflect: true,
-        attribute: true,
-      },
-      /** Count of the pages displayed before or after the current page. */
-      size: {
-        type: Number,
-        reflect: true,
-        attribute: true,
-      },
-      /** Number of paginated pages. */
-      pages: {
-        type: Number,
-      },
-      /** Has pages before the current page. */
-      hasBefore: {
-        type: Boolean,
-      },
-      /** Has pages after the current page. */
-      hasNext: {
-        type: Boolean,
-      },
-      /** Has pages. */
-      hasPages: {
-        type: Boolean,
-      },
-      /** Displayed page elements */
-      items: {
-        type: Array,
-      },
-    };
-  }
+  static properties = {
+    sortDir: {
+      type: String,
+      reflect: true,
+      attribute: true,
+    },
+    sortField: {
+      type: String,
+      reflect: true,
+      attribute: true,
+    },
+    searchField: {
+      type: String,
+      reflect: true,
+      attribute: true,
+    },
+    searchTerm: {
+      type: String,
+      reflect: true,
+      attribute: true,
+    },
+    offset: {
+      type: Number,
+      reflect: true,
+      attribute: true,
+    },
+    /** Per-page limit of the elements. */
+    limit: {
+      type: Number,
+      reflect: true,
+      attribute: true,
+    },
+    /** Total count of the elements. */
+    total: {
+      type: Number,
+      reflect: true,
+      attribute: true,
+    },
+    /** Current page. */
+    page: {
+      type: Number,
+      reflect: true,
+      attribute: true,
+    },
+    /** Count of the pages displayed before or after the current page. */
+    size: {
+      type: Number,
+      reflect: true,
+      attribute: true,
+    },
+    /** Number of paginated pages. */
+    pages: {
+      type: Number,
+    },
+    /** Has pages before the current page. */
+    hasBefore: {
+      type: Boolean,
+    },
+    /** Has pages after the current page. */
+    hasNext: {
+      type: Boolean,
+    },
+    /** Has pages. */
+    hasPages: {
+      type: Boolean,
+    },
+    /** Displayed page elements */
+    items: {
+      type: Array,
+    },
+  };
 
   constructor() {
     super();
@@ -189,13 +185,21 @@ class LitPagination extends LitElement {
           @click=${() => this.onBegin()}
           style=${this.hasBefore ? "display: inline-block" : "display: none"}
         >
-          <img width="${this.iconSize}" src="/icons/double-chevron-left.svg" />
+          <img
+            alt="show first pagination buttons"
+            width="${this.iconSize}"
+            src="/icons/double-chevron-left.svg"
+          />
         </button>
         <button
           @click=${() => this.onBefore()}
           style=${this.hasBefore ? "display: inline-block" : "display: none"}
         >
-          <img width="${this.iconSize}" src="/icons/chevron-left.svg" />
+          <img
+            alt="shift pagination buttons back by one"
+            width="${this.iconSize}"
+            src="/icons/chevron-left.svg"
+          />
         </button>
         <span>Page</span>
         ${this.items.map(
@@ -234,13 +238,21 @@ class LitPagination extends LitElement {
           @click=${() => this.onNext()}
           style=${this.hasNext ? "display: inline-block" : "display: none"}
         >
-          <img width="${this.iconSize}" src="/icons/chevron-right.svg" />
+          <img
+            alt="shift pagination buttons forward by one"
+            width="${this.iconSize}"
+            src="/icons/chevron-right.svg"
+          />
         </button>
         <button
           @click=${() => this.onEnd()}
           style=${this.hasBefore ? "display: inline-block" : "display: none"}
         >
-          <img width="${this.iconSize}" src="/icons/double-chevron-right.svg" />
+          <img
+            alt="show last pagination buttons"
+            width="${this.iconSize}"
+            src="/icons/double-chevron-right.svg"
+          />
         </button>
       </div>
     `;
@@ -310,10 +322,6 @@ class LitPagination extends LitElement {
     } else {
       return index;
     }
-  }
-
-  isCurrent(index, page) {
-    return index === page;
   }
 
   onChange(item) {
