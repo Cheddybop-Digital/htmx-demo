@@ -9,17 +9,14 @@ import "https://unpkg.com/htmx.org@1.9.9";
 
 class LitPagination extends LitElement {
   static styles = css`
-    :host {
+    div.pagination-container {
+      height: 40px;
+      margin-top: 30px;
       display: block;
       font-size: 14px;
     }
 
-    :host div.pagination-container {
-      height: 40px;
-      margin-top: 30px;
-    }
-
-    :host button {
+    div.pagination-container button {
       margin: 0 4px;
       padding: 2px 8px;
       position: relative;
@@ -33,21 +30,21 @@ class LitPagination extends LitElement {
       transition: all 200ms;
     }
 
-    :host button:hover {
+    div.pagination-container button:hover {
       transform: scale(1.1);
     }
 
-    :host button:disabled {
+    div.pagination-container button:disabled {
       color: #000000;
       background-color: gray;
     }
 
-    :host button.active {
+    div.pagination-container button.active {
       background-color: black;
       color: #ffffff;
     }
 
-    :host span {
+    div.pagination-container span {
       margin: 0 4px;
     }
   `;

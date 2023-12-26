@@ -1,6 +1,8 @@
 import { IsOptional, IsPositive } from "class-validator";
 
-type FieldsType = "firstName" | "lastName" | "email" | "phoneNumber";
+export type SortDirType = "asc" | "desc" | "";
+
+export type FieldsType = "firstName" | "lastName" | "email" | "phoneNumber";
 
 export class PaginationQueryDto {
   @IsOptional()
@@ -12,7 +14,7 @@ export class PaginationQueryDto {
   offset: number = 0;
 
   @IsOptional()
-  sortDir: "asc" | "desc" | "";
+  sortDir: SortDirType;
 
   @IsOptional()
   sortField: FieldsType;
