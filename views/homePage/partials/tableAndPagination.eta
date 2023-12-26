@@ -50,7 +50,7 @@
                 limit=<%= it.count %>
                 offset=<%= it.offset %>
                 page=<%= (it.offset + 20) / it.count %>
-                size=4>
+                size=2>
         </lit-pagination>
     </div>
 </div>
