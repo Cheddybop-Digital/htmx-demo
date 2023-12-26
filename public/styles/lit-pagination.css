@@ -1,0 +1,38 @@
+div#lit-pagination-container {
+    height: 40px;
+    margin-top: 30px;
+    display: block;
+    font-size: 14px;
+}
+
+div#lit-pagination-container button {
+    margin: 0 4px;
+    padding: 2px 8px;
+    position: relative;
+    min-width: 30px;
+    outline: none;
+    border: 1px solid #000000;
+    cursor: pointer;
+    color: #000000;
+    background-color: transparent;
+    border-radius: 6px;
+    transition: all 200ms;
+}
+
+div#lit-pagination-container button:hover {
+    transform: scale(1.1);
+}
+
+div#lit-pagination-container button:disabled {
+    color: #000000;
+    background-color: gray;
+}
+
+div#lit-pagination-container button.active {
+    background-color: black;
+    color: #ffffff;
+}
+
+div#lit-pagination-container span {
+    margin: 0 4px;
+}

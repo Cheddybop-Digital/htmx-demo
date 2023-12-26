@@ -1,9 +1,9 @@
 <div class="th-container-<%= it.field %>">
   <form
     class="search-form-<%= it.field %>"
+    onsubmit="tableData.submitHandler(e, '<%= it.field %>')"
     hx-get="/users"
     hx-push-url="true"
-    onsubmit="tableData.submitHandler(e, '<%= it.field %>')"
     hx-target="#table"
     hx-vals="js:{
       sortDir: '<%= it.sortDir %>',

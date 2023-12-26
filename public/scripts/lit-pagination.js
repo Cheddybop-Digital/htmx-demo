@@ -1,54 +1,11 @@
-// eslint-disable-file
 // modified version of this: https://github.com/Klaudeta/lit-pagination
 import {
   html,
-  css,
   LitElement,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
 import "https://unpkg.com/htmx.org@1.9.9";
 
 class LitPagination extends LitElement {
-  static styles = css`
-    div.pagination-container {
-      height: 40px;
-      margin-top: 30px;
-      display: block;
-      font-size: 14px;
-    }
-
-    div.pagination-container button {
-      margin: 0 4px;
-      padding: 2px 8px;
-      position: relative;
-      min-width: 30px;
-      outline: none;
-      border: 1px solid #000000;
-      cursor: pointer;
-      color: #000000;
-      background-color: transparent;
-      border-radius: 6px;
-      transition: all 200ms;
-    }
-
-    div.pagination-container button:hover {
-      transform: scale(1.1);
-    }
-
-    div.pagination-container button:disabled {
-      color: #000000;
-      background-color: gray;
-    }
-
-    div.pagination-container button.active {
-      background-color: black;
-      color: #ffffff;
-    }
-
-    div.pagination-container span {
-      margin: 0 4px;
-    }
-  `;
-
   static properties = {
     sortDir: {
       type: String,
@@ -177,7 +134,8 @@ class LitPagination extends LitElement {
 
   render() {
     return html`
-      <div class="pagination-container">
+      <link href="/styles/lit-pagination.css" rel="stylesheet" />
+      <div id="lit-pagination-container">
         <button
           @click=${() => this.onBegin()}
           style=${this.hasBefore ? "display: inline-block" : "display: none"}
@@ -199,35 +157,21 @@ class LitPagination extends LitElement {
           />
         </button>
         <span>Page</span>
-        ${this.items.map(
-          (item) => html`
+        ${this.items.map((item) => {
+          return html`
             <button
-              class=${this.offset === (item - 1) * 20 ? "active" : ""}
-              @click=${async () => {
-                this.onChange(item);
-                try {
-                  const url = this.createUrl(item);
-                  const res = await fetch(url, {
-                    method: "GET",
-                    headers: {
-                      "HX-Request": true,
-                    },
-                  });
-                  const data = await res.text();
-                  const table = document.getElementById("table");
-                  table.outerHTML = data;
-
-                  // TODO: update the url without page load
-                  window.history.pushState({}, "HTMX Demo", url);
-                } catch (error) {
-                  console.log(error);
-                }
-              }}
+              class=${this.offset === (item - 1) * 20
+                ? "lit-pagination-btn active"
+                : "lit-pagination-btn"}
+              hx-on="click: () => this.onChange(item)"
+              hx-get="${this.createUrl(item)}"
+              hx-push-url="true"
+              hx-target="#table"
             >
               ${item}
             </button>
-          `,
-        )}
+          `;
+        })}
 
         <span>of</span>
         ${this.pages}
@@ -253,6 +197,19 @@ class LitPagination extends LitElement {
         </button>
       </div>
     `;
+  }
+
+  updated(changedProps) {
+    if (changedProps.get("page") !== this.page) {
+      const pagination = htmx.find("lit-pagination");
+      htmx.process(pagination);
+      super.update(changedProps);
+    }
+  }
+
+  createRenderRoot() {
+    // this disables the shadow dom
+    return this;
   }
 
   createUrl(index) {
