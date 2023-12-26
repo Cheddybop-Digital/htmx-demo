@@ -29,11 +29,6 @@ div#lit-pagination-container button:hover {
     transform: scale(1.1);
 }
 
-div#lit-pagination-container button:disabled {
-    color: #000000;
-    background-color: gray;
-}
-
 div#lit-pagination-container button.active {
     background-color: black;
     color: #ffffff;
