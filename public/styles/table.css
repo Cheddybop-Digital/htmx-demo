@@ -20,7 +20,7 @@ table.table.user-table {
 .th-container-lastName,
 .th-container-email,
 .th-container-phoneNumber {
-    width: 240px;
+    width: 200px;
 }
 
 .th-container-firstName form input.hide,
@@ -35,6 +35,7 @@ table.table.user-table {
 .th-container-email form input,
 .th-container-phoneNumber form input {
     display: block;
+    max-width: 150px;
 }
 
 .th-container-firstName form,

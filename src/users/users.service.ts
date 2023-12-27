@@ -57,7 +57,7 @@ export class UsersService {
       order: null,
     };
 
-    if (offset) {
+    if (offset || limit) {
       findOptions.skip = offset;
       findOptions.take = limit;
     }
