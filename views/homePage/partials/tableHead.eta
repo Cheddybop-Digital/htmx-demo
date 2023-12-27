@@ -20,7 +20,7 @@
            id="<%= it.field %>" name="searchTerm" type="text" />
   </form>
   <button
-    onclick="tableData.searchIconClickHandler('<%= it.field %>')"
+    onclick="tableData.toggleSearchInput('<%= it.field %>')"
     type="button">
     <img
       alt="search-<%= it.field %>"

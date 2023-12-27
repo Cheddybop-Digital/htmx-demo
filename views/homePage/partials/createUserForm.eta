@@ -1,4 +1,7 @@
-<form hx-post="/users" hx-target="#table-body" hx-swap="afterbegin" class="form-control"
+<form hx-post="/users"
+      hx-target="#table-body"
+      hx-swap="afterbegin"
+      class="form-control"
       id="htmx-user-form">
     <!--  first name-->
     <label class="form-control w-full max-w-xs my-2">

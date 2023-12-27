@@ -47,13 +47,10 @@ tableData = {
       node.classList.add("hide");
     }
   },
-  searchIconClickHandler(field) {
-    this.toggleSearchInput(field);
-  },
   clearFilters() {
     // clear data
-    this._sortDir = "";
-    this._sortField = "";
+    this.sortDir = "";
+    this.sortField = "";
 
     // reset the url
     const url = new URL(window.location);

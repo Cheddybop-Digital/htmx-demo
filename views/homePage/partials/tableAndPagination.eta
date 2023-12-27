@@ -35,7 +35,7 @@
         </tr>
         </thead>
         <tbody class="fade-in">
-        <% it.records.forEach(function(user){ %>
+        <% it.records.forEach((user) => { %>
         <% ~ include('./userRow.eta', { user }) %>
         <% }) %>
         </tbody>
