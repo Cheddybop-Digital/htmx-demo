@@ -16,24 +16,24 @@ table.table.user-table {
     width: 195px;
 }
 
-.th-container-firstName.show-input,
-.th-container-lastName.show-input,
-.th-container-email.show-input,
-.th-container-phoneNumber.show-input {
+.th-container-firstName,
+.th-container-lastName,
+.th-container-email,
+.th-container-phoneNumber {
     width: 240px;
+}
+
+.th-container-firstName form input.hide,
+.th-container-lastName form input.hide,
+.th-container-email form input.hide,
+.th-container-phoneNumber form input.hide {
+    display: none;
 }
 
 .th-container-firstName form input,
 .th-container-lastName form input,
 .th-container-email form input,
 .th-container-phoneNumber form input {
-    display: none;
-}
-
-.th-container-firstName.show-input form input,
-.th-container-lastName.show-input form input,
-.th-container-email.show-input form input,
-.th-container-phoneNumber.show-input form input {
     display: block;
 }
 

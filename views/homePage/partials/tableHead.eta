@@ -1,7 +1,6 @@
 <div class="th-container-<%= it.field %>">
   <form
     class="search-form-<%= it.field %>"
-    onsubmit="tableData.submitHandler(e, '<%= it.field %>')"
     hx-get="/users"
     hx-push-url="true"
     hx-target="#table"
@@ -16,7 +15,8 @@
     name="search-form-<%= it.field %>"
   >
     <label class="search-label" for="<%= it.field %>"><%= it.label %></label>
-    <input class="input input-bordered input-xs max-w-xs"
+    <input class="input input-bordered input-xs max-w-xs <%= it.field === it.searchField ? '' : 'hide' %>"
+           value="<%= it.field === it.searchField ? it.searchTerm : '' %>"
            id="<%= it.field %>" name="searchTerm" type="text" />
   </form>
   <button
@@ -35,7 +35,7 @@
     hx-swap="innerHTML"
     hx-target="#table"
     hx-vals="js:{
-      sortDir: tableData.toggleSort(),
+      sortDir: tableData.toggleSort('<%= it.field %>'),
       sortField: '<%= it.field %>',
       searchField: '<%= it.searchField %>',
       searchTerm: '<%= it.searchTerm %>'
