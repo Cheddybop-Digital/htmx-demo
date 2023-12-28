@@ -3,7 +3,6 @@ import {
   html,
   LitElement,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
-import "https://unpkg.com/htmx.org@1.9.9";
 
 class LitPagination extends LitElement {
   static properties = {
@@ -154,44 +153,45 @@ class LitPagination extends LitElement {
           />
         </button>
         <span>Page</span>
-        <div class="page-button-container"">
-          ${this.items.map((item) => {
-            return html`
-              <button
-                class=${this.offset === (item - 1) * 20
-                  ? "lit-pagination-btn active"
-                  : "lit-pagination-btn"}
-                hx-on="click: () => this.onChange(item)"
-                hx-get="${this.createUrl(item)}"
-                hx-push-url="true"
-                hx-target="#table"
-              >
-                ${item}
-              </button>
-            `;
-          })}
-        </div>
+        <div class="page-button-container"
+        ">
+        ${this.items.map((item) => {
+          return html`
+            <button
+              class=${this.offset === (item - 1) * 20
+                ? "lit-pagination-btn active"
+                : "lit-pagination-btn"}
+              hx-on="click: () => this.onChange(item)"
+              hx-get="${this.createUrl(item)}"
+              hx-push-url="true"
+              hx-target="#table"
+            >
+              ${item}
+            </button>
+          `;
+        })}
+      </div>
 
-        <span>of</span>
-        ${this.pages}
-        <button
-          @click=${() => this.onNext()}
-        >
-          <img
-            alt="shift pagination buttons forward by one"
-            width="${this.iconSize}"
-            src="/icons/chevron-right.svg"
-          />
-        </button>
-        <button
-          @click=${() => this.onEnd()}
-        >
-          <img
-            alt="show last pagination buttons"
-            width="${this.iconSize}"
-            src="/icons/double-chevron-right.svg"
-          />
-        </button>
+      <span>of</span>
+      ${this.pages}
+      <button
+        @click=${() => this.onNext()}
+      >
+        <img
+          alt="shift pagination buttons forward by one"
+          width="${this.iconSize}"
+          src="/icons/chevron-right.svg"
+        />
+      </button>
+      <button
+        @click=${() => this.onEnd()}
+      >
+        <img
+          alt="show last pagination buttons"
+          width="${this.iconSize}"
+          src="/icons/double-chevron-right.svg"
+        />
+      </button>
       </div>
     `;
   }

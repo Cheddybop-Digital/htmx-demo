@@ -15,14 +15,14 @@
 <body>
 <main class="my-8 p-8 mx-auto">
     <button class="btn btn-primary"
-             style="animation: none;"
+            style="animation: none;"
             onclick="user_create_modal.showModal()">
         Add User!
     </button>
 
-    <% ~ include("./partials/tableAndPagination.eta", it); %>
+    <% ~include("./partials/tableAndPagination.eta", it); %>
 
-    <% ~ include("./partials/createUserModal.eta"); %>
+    <% ~include("../modals/createUserModal.eta", { type: "create" }); %>
 
 </main>
 </body>

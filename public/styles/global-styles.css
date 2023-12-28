@@ -14,3 +14,7 @@
 .fade-in {
     animation: fadeIn 600ms;
 }
+
+#htmx-user-form input {
+    min-width: 100%;
+}
