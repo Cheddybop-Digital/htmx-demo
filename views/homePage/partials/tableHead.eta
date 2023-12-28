@@ -9,6 +9,7 @@
                hx-get="/users"
                hx-push-url="true"
                hx-target="#table"
+               <% /* keyCode==13 is the enter key */ %>
                hx-trigger="keyup[keyCode==13]"
                hx-vals="js:{
                   sortDir: '<%= it.sortDir %>',
