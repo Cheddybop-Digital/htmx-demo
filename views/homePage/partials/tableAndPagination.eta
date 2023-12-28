@@ -15,28 +15,28 @@
         <tr>
             <th>Avatar</th>
             <th>
-                <% ~ include('./tableHead.eta', { label: 'First Name', field: 'firstName', limit: it.count, ...it }) %>
+                <% ~include('./tableHead.eta', { label: 'First Name', field: 'firstName', limit: it.count, ...it }) %>
             </th>
             <th>
                 <div class="th-container">
-                    <% ~ include('./tableHead.eta', { label: 'Last Name', field: 'lastName', limit: it.count, ...it }) %>
+                    <% ~include('./tableHead.eta', { label: 'Last Name', field: 'lastName', limit: it.count, ...it }) %>
                 </div>
             </th>
             <th>
                 <div class="th-container">
-                    <% ~ include('./tableHead.eta', { label: 'Email', field: 'email', limit: it.count, ...it }) %>
+                    <% ~include('./tableHead.eta', { label: 'Email', field: 'email', limit: it.count, ...it }) %>
                 </div>
             </th>
             <th>
                 <div class="th-container">
-                    <% ~ include('./tableHead.eta', { label: 'Phone', field: 'phoneNumber', limit: it.count, ...it }) %>
+                    <% ~include('./tableHead.eta', { label: 'Phone', field: 'phoneNumber', limit: it.count, ...it }) %>
                 </div>
             </th>
         </tr>
         </thead>
         <tbody class="fade-in">
         <% it.records.forEach((user) => { %>
-        <% ~ include('./userRow.eta', { user }) %>
+            <% ~include('./userRow.eta', { user }) %>
         <% }) %>
         </tbody>
     </table>

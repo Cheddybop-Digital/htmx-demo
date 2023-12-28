@@ -9,7 +9,7 @@
                hx-get="/users"
                hx-push-url="true"
                hx-target="#table"
-               <% /* keyCode==13 is the enter key */ %>
+                <% /* keyCode==13 is the enter key */ %>
                hx-trigger="keyup[keyCode==13]"
                hx-vals="js:{
                   sortDir: '<%= it.sortDir %>',
@@ -20,16 +20,16 @@
                   offset: '<%= it.offset %>',
                 }"
         />
-        </div>
-        <button
-                onclick="tableData.toggleSearchInput('<%= it.field %>')"
-                type="button">
-            <img
-                    alt="search-<%= it.field %>"
-                    src="/icons/search.svg"
-                    style="width: 18px; min-width: 18px; margin-inline: 10px;"
-            />
-        </button>
+    </div>
+    <button
+            onclick="tableData.toggleSearchInput('<%= it.field %>')"
+            type="button">
+        <img
+                alt="search-<%= it.field %>"
+                src="/icons/search.svg"
+                style="width: 18px; min-width: 18px; margin-inline: 10px;"
+        />
+    </button>
 
     <div
             class="sorters"
