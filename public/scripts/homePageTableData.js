@@ -43,6 +43,7 @@ tableData = {
     const node = document.querySelector(`.th-container-${field} input`);
     if (node.classList.contains("hide")) {
       node.classList.remove("hide");
+      node.focus();
     } else {
       node.classList.add("hide");
     }

@@ -13,37 +13,22 @@ table.table.user-table {
     flex: 1;
     align-items: center;
     justify-content: space-between;
-    width: 195px;
-}
-
-.th-container-firstName,
-.th-container-lastName,
-.th-container-email,
-.th-container-phoneNumber {
     width: 200px;
 }
 
-.th-container-firstName form input.hide,
-.th-container-lastName form input.hide,
-.th-container-email form input.hide,
-.th-container-phoneNumber form input.hide {
+.th-container-firstName input.hide,
+.th-container-lastName input.hide,
+.th-container-email input.hide,
+.th-container-phoneNumber input.hide {
     display: none;
 }
 
-.th-container-firstName form input,
-.th-container-lastName form input,
-.th-container-email form input,
-.th-container-phoneNumber form input {
+.th-container-firstName input,
+.th-container-lastName input,
+.th-container-email input,
+.th-container-phoneNumber input {
     display: block;
     max-width: 150px;
-}
-
-.th-container-firstName form,
-.th-container-lastName form,
-.th-container-email form,
-.th-container-phoneNumber form {
-    display: flex;
-    flex-direction: column;
 }
 
 .sorters {
@@ -55,16 +40,13 @@ table.table.user-table {
     fill: red;
 }
 
-[class^='search-form'] {
-    display: flex;
-}
-
-.search-form input {
+input {
     max-width: 100px !important;
+    display: block;
 }
 
 .search-label {
     margin-bottom: 5px;
     text-align: center;
-    display: block;
+    width: 100%;
 }
