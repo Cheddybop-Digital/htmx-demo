@@ -1,9 +1,12 @@
 import * as Joi from "@hapi/joi";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { APP_FILTER } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { BadRequestExceptionFilter } from "./common/filters/badRequestFilter";
+import { NotFoundExceptionFilter } from "./common/filters/notFoundExceptionFilter";
 import { UsersModule } from "./users/users.module";
 
 @Module({
@@ -27,6 +30,16 @@ import { UsersModule } from "./users/users.module";
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: NotFoundExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: BadRequestExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}
