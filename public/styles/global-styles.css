@@ -12,7 +12,7 @@
 }
 
 .fade-in {
-    animation: fadeIn 600ms;
+    animation: fadeIn 500ms;
 }
 
 #htmx-user-form input {
