@@ -28,17 +28,34 @@ export class UsersController {
     @Query() paginationQuery: PaginationQueryDto,
     @Res() res: Response,
   ) {
-    if (req.header("HX-Request")) {
+    const { create = false } = paginationQuery;
+
+    if (req.header("HX-Request") && !create) {
       // if htmx is making the request, send a partial
       const data = await this.usersService.findAll(paginationQuery);
-      return res
-        .status(200)
-        .send(eta.render("homePage/partials/tableAndPagination", data));
+      return res.status(200).send(
+        eta.render("homePage/partials/tableAndPagination", {
+          ...data,
+          flash: res.locals.flash,
+        }),
+      );
+    }
+
+    if (create) {
+      res.locals.flash = {
+        type: "success",
+        message: "User successfully created",
+      };
     }
 
     // if this is a page load, serve the whole page
     const data = await this.usersService.findAll(paginationQuery);
-    return res.status(200).send(eta.render("homePage/index", data));
+    return res.status(200).send(
+      eta.render("homePage/index", {
+        ...data,
+        flash: res.locals.flash,
+      }),
+    );
   }
 
   @Get(":id")
@@ -53,7 +70,7 @@ export class UsersController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
     await this.usersService.create(createUserDto);
-    return res.redirect("/users");
+    return res.redirect("/users?create=true");
   }
 
   @Put(":id")

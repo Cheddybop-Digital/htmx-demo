@@ -24,4 +24,7 @@ export class PaginationQueryDto {
 
   @IsOptional()
   searchTerm: string;
+
+  @IsOptional()
+  create: boolean;
 }

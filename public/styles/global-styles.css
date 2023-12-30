@@ -15,6 +15,18 @@
     animation: fadeIn 500ms;
 }
 
+@keyframes slide {
+    100% {
+        right: 40px;
+    }
+}
+
+#flash-msg {
+    right: -400px;
+    animation: slide 500ms forwards;
+    animation-delay: 500ms;
+}
+
 #htmx-user-form input {
     min-width: 100%;
 }

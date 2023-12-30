@@ -12,7 +12,7 @@
     <script defer src="/scripts/homePageTableData.js"></script>
     <script type="module" src="/scripts/lit-pagination.js"></script>
 </head>
-<body>
+<body class="relative overflow-x-hidden">
 <main class="my-8 p-8 mx-auto">
     <button class="btn btn-primary"
             style="animation: none;"
@@ -23,7 +23,6 @@
     <% ~include("./partials/tableAndPagination.eta", it); %>
 
     <% ~include("../modals/createUserModal.eta", { type: "create" }); %>
-
 </main>
 </body>
 </html>
