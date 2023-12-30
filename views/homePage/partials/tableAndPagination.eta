@@ -1,15 +1,3 @@
-<% if ( it.flash ) { %>
-    <div id="flash-msg" class="absolute flex justify-end items-center right-[40px] top-[40px]">
-        <div class="alert bg-info text-white w-[300px] flex justify-center">
-            <p><%= it.flash.message %></p>
-            <button
-                    class="btn btn-sm btn-circle btn-ghost absolute right-2"
-                    onclick="document.getElementById('flash-msg').remove()"
-            >✕
-            </button>
-        </div>
-    </div>
-<% } %>
 <div class="overflow-x-auto min-h-[100vh]" id="table">
     <div class="flex items-baseline mt-2">
         <p class="mt-8 mr-2"> <%= it.rangeMessage %></p>

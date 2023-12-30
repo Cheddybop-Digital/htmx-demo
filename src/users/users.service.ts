@@ -31,6 +31,7 @@ export class UsersService {
     searchField: string;
     searchTerm: string;
     rangeMessage: string;
+    message?: string;
   }> {
     const {
       limit,

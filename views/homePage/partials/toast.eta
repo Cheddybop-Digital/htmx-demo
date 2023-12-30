@@ -1,0 +1,26 @@
+<div id="flash-msg" class="absolute flex justify-end items-center right-[40px] top-[40px]">
+    <div class="alert bg-info text-white w-[300px] flex justify-center">
+        <p><%= it.message %></p>
+        <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2"
+                onclick="document.getElementById('flash-msg').remove()"
+        >✕
+        </button>
+    </div>
+    <script type="text/javascript">
+      // remove ?deleted=true query param
+      if (
+        window.location.pathname === "/users" &&
+        window.location.search.includes("deleted")
+      ) {
+        window.history.replaceState(null, "", "/users");
+      }
+
+      // delete self after five seconds
+      const fiveSeconds = 5000;
+      setTimeout(() => {
+        const node = document.getElementById("flash-msg");
+        node.remove();
+      }, fiveSeconds);
+    </script>
+</div>

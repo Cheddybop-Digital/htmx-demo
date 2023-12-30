@@ -13,7 +13,11 @@
     <script type="module" src="/scripts/lit-pagination.js"></script>
 </head>
 <body class="relative overflow-x-hidden">
+<% if ( it.message ) { %>
+    <% ~include("./partials/toast.eta", it); %>
+<% } %>
 <main class="my-8 p-8 mx-auto">
+
     <button class="btn btn-primary"
             style="animation: none;"
             onclick="user_create_modal.showModal()">

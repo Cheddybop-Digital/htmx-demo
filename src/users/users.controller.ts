@@ -28,34 +28,23 @@ export class UsersController {
     @Query() paginationQuery: PaginationQueryDto,
     @Res() res: Response,
   ) {
-    const { create = false } = paginationQuery;
+    const { deleted = false } = paginationQuery;
 
-    if (req.header("HX-Request") && !create) {
+    if (req.header("HX-Request") && !deleted) {
       // if htmx is making the request, send a partial
       const data = await this.usersService.findAll(paginationQuery);
-      return res.status(200).send(
-        eta.render("homePage/partials/tableAndPagination", {
-          ...data,
-          flash: res.locals.flash,
-        }),
-      );
-    }
-
-    if (create) {
-      res.locals.flash = {
-        type: "success",
-        message: "User successfully created",
-      };
+      return res
+        .status(200)
+        .send(eta.render("homePage/partials/tableAndPagination", data));
     }
 
     // if this is a page load, serve the whole page
-    const data = await this.usersService.findAll(paginationQuery);
-    return res.status(200).send(
-      eta.render("homePage/index", {
-        ...data,
-        flash: res.locals.flash,
-      }),
-    );
+    let data = await this.usersService.findAll(paginationQuery);
+    if (deleted) {
+      data = { ...data, message: "User successfully deleted" };
+    }
+
+    return res.status(200).send(eta.render("homePage/index", data));
   }
 
   @Get(":id")
@@ -70,7 +59,11 @@ export class UsersController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
     await this.usersService.create(createUserDto);
-    return res.redirect("/users?create=true");
+    return res.status(201).send(
+      eta.render("homePage/partials/toast", {
+        message: "User successfully created",
+      }),
+    );
   }
 
   @Put(":id")
@@ -88,7 +81,7 @@ export class UsersController {
     @Param("id", new ParseUUIDPipe()) id: string,
     @Res() res: Response,
   ) {
-    res.set("HX-Redirect", "/users");
+    res.set("HX-Redirect", "/users?deleted=true");
     await this.usersService.remove(id);
     return res.status(204).send("");
   }
