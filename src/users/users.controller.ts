@@ -47,6 +47,15 @@ export class UsersController {
     return res.status(200).send(eta.render("homePage/index", data));
   }
 
+  @Get("initial")
+  async defaultPageState(
+    @Query() paginationQuery: PaginationQueryDto,
+    @Res() res: Response,
+  ) {
+    const data = await this.usersService.findAll(paginationQuery);
+    return res.status(200).send(eta.render("homePage/index", data));
+  }
+
   @Get(":id")
   async findOne(
     @Param("id", new ParseUUIDPipe()) id: string,
@@ -72,7 +81,6 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @Res() res: Response,
   ) {
-    console.log("UHHHHH");
     const user = await this.usersService.update(id, updateUserDto);
     return res.status(200).send(eta.render("users/userDetails", { user }));
   }

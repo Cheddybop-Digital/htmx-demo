@@ -12,7 +12,7 @@
 }
 
 .fade-in {
-    animation: fadeIn 500ms;
+    animation: fadeIn 300ms;
 }
 
 @keyframes slide {

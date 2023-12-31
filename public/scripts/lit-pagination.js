@@ -292,10 +292,12 @@ class LitPagination extends LitElement {
 
   onBegin() {
     this.page = 1;
+    this.makePaginationRequest();
   }
 
   onEnd() {
     this.page = this.pages;
+    this.makePaginationRequest();
   }
 }
 

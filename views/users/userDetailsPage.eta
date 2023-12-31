@@ -12,7 +12,9 @@
 <main class="fade-in">
     <div class="my-8 p-4 max-w-4xl mx-auto">
         <a class="link link-hover link-secondary"
-           href="/"
+           href="/users/initial"
+           hx-push-url="true"
+           hx-boost="true"
         >Go back</a>
     </div>
     <% ~include("./userDetails.eta", it) %>
