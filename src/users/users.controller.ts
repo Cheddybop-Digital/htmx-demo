@@ -31,14 +31,14 @@ export class UsersController {
     const { deleted = false } = paginationQuery;
 
     if (req.header("HX-Request") && !deleted) {
-      // if htmx is making the request, send a partial
+      // if htmx is making the request, and it's not a delete redirect, send a partial
       const data = await this.usersService.findAll(paginationQuery);
       return res
         .status(200)
         .send(eta.render("homePage/partials/tableAndPagination", data));
     }
 
-    // if this is a page load, serve the whole page
+    // if this is a page load, or delete redirect, serve the whole page
     let data = await this.usersService.findAll(paginationQuery);
     if (deleted) {
       data = { ...data, message: "User successfully deleted" };
@@ -72,6 +72,7 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @Res() res: Response,
   ) {
+    console.log("UHHHHH");
     const user = await this.usersService.update(id, updateUserDto);
     return res.status(200).send(eta.render("users/userDetails", { user }));
   }

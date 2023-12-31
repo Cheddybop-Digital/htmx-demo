@@ -1,5 +1,6 @@
 <form hx-<%= it.type === "create" ? "post" : "put" %>="/users<%= it.type === "create" ? "" : "/" + it.user.id %>"
       class="form-control"
+      onsubmit="user_<%= it.type %>_modal.close()"
       hx-target="<%= it.type === "edit" ? "#user" : "body" %>"
       hx-swap="<%= it.type === "edit" ? "innerHTML" : "afterbegin" %>"
       id="htmx-user-form">
@@ -51,7 +52,6 @@
     <!--  submit button-->
     <div class="block">
         <button type="submit"
-                onclick="user_<%= it.type %>_modal.close()"
                 id="submit-user-button"
                 class="btn btn-primary bg-primary text-black hover:text-white float-right">
             <%= it.type === "edit" ? 'Edit' : 'Create' %>

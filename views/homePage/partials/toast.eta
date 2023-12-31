@@ -17,10 +17,10 @@
       }
 
       // delete self after five seconds
-      const fiveSeconds = 5000;
+      fiveSeconds = 5000;
       setTimeout(() => {
-        const node = document.getElementById("flash-msg");
-        node.remove();
+        let node = document.getElementById("flash-msg");
+        if (node) node.remove();
       }, fiveSeconds);
     </script>
 </div>

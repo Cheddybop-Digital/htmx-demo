@@ -5,7 +5,6 @@ import { APP_FILTER } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { BadRequestExceptionFilter } from "./common/filters/badRequestFilter";
 import { NotFoundExceptionFilter } from "./common/filters/notFoundExceptionFilter";
 import { UsersModule } from "./users/users.module";
 
@@ -35,10 +34,6 @@ import { UsersModule } from "./users/users.module";
     {
       provide: APP_FILTER,
       useClass: NotFoundExceptionFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: BadRequestExceptionFilter,
     },
   ],
 })
