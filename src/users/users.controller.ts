@@ -30,29 +30,20 @@ export class UsersController {
   ) {
     const { deleted = false } = paginationQuery;
 
-    if (req.header("HX-Request") && !deleted) {
+    let data = await this.usersService.findAll(paginationQuery);
+    if (req.header("HX-Trigger") === "back-to-home-anchor") {
+      // we want to use hx-boost functionality that will replace body HTML
+      return res.status(200).send(eta.render("homePage/index", data));
+    } else if (req.header("HX-Request") && !deleted) {
       // if htmx is making the request, and it's not a delete redirect, send a partial
-      const data = await this.usersService.findAll(paginationQuery);
       return res
         .status(200)
         .send(eta.render("homePage/partials/tableAndPagination", data));
-    }
-
-    // if this is a page load, or delete redirect, serve the whole page
-    let data = await this.usersService.findAll(paginationQuery);
-    if (deleted) {
+    } else if (deleted) {
+      // if coming from a DELETE redirect, add a deleted message for a toast message
       data = { ...data, message: "User successfully deleted" };
     }
-
-    return res.status(200).send(eta.render("homePage/index", data));
-  }
-
-  @Get("initial")
-  async defaultPageState(
-    @Query() paginationQuery: PaginationQueryDto,
-    @Res() res: Response,
-  ) {
-    const data = await this.usersService.findAll(paginationQuery);
+    // if this is a page load, serve the whole page
     return res.status(200).send(eta.render("homePage/index", data));
   }
 

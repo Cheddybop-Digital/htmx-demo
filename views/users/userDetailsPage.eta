@@ -11,14 +11,14 @@
 <body>
 <main class="fade-in">
     <div class="my-8 p-4 max-w-4xl mx-auto">
-        <a class="link link-hover link-secondary"
-           href="/users/initial"
+        <a id="back-to-home-anchor"
+           class="link link-hover link-secondary"
+           href="/users"
            hx-push-url="true"
            hx-boost="true"
         >Go back</a>
     </div>
     <% ~include("./userDetails.eta", it) %>
 </main>
-<% ~include("../modals/createUserModal.eta", { type: "edit", user: it.user }) %>
 </body>
 </html>

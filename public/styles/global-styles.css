@@ -21,13 +21,13 @@
     }
 }
 
-#flash-msg {
+#toast {
     right: -400px;
     animation: slide 500ms forwards;
     animation-delay: 500ms;
 }
 
-#flash-msg .alert {
+#toast .alert {
     box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.4);
     border: none;
 }

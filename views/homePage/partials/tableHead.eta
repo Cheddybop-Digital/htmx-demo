@@ -5,7 +5,7 @@
                value="<%= it.field === it.searchField ? it.searchTerm : '' %>"
                id="<%= it.field %>"
                name="searchTerm"
-               type="text"
+               type="search"
                hx-get="/users"
                hx-push-url="true"
                hx-target="#table"

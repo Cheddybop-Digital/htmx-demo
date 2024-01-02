@@ -1,12 +1,12 @@
 <form hx-<%= it.type === "create" ? "post" : "put" %>="/users<%= it.type === "create" ? "" : "/" + it.user.id %>"
       class="form-control"
-      onsubmit="user_<%= it.type %>_modal.close()"
+      hx-on--after-request="user_<%= it.type %>_modal.close();document.getElementById('htmx-user-form')?.reset()"
       hx-target="<%= it.type === "edit" ? "#user" : "body" %>"
       hx-swap="<%= it.type === "edit" ? "innerHTML" : "afterbegin" %>"
       id="htmx-user-form">
     <!--  first name-->
     <label class="form-control w-full my-2">
-        <span class="label-text">First name</span>
+        <span class="label-text align-right">First name</span>
         <input type="text"
                name="firstName"
                id="firstName"

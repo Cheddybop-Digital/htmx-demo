@@ -13,6 +13,7 @@
         <button onclick="user_edit_modal.showModal()" class="btn btn-accent mr-4 my-6 w-[120px]">Edit User
         </button>
         <button
+                id="delete-user-btn"
                 hx-boost="true"
                 hx-delete="/users/<%= it.user.id %>"
                 hx-confirm="Are you sure you want to delete <%= it.user.firstName %> <%= it.user.lastName %>?"
@@ -20,3 +21,4 @@
         </button>
     </div>
 </div>
+<% ~include("../modals/createUserModal.eta", { type: "edit", user: it.user }) %>
