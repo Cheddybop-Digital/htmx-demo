@@ -18,6 +18,12 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UsersService } from "./users.service";
 
+declare module "express-session" {
+  interface SessionData {
+    fromDeleteRedirect: boolean;
+  }
+}
+
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -28,18 +34,20 @@ export class UsersController {
     @Query() paginationQuery: PaginationQueryDto,
     @Res() res: Response,
   ) {
-    const { deleted = false } = paginationQuery;
-
     let data = await this.usersService.findAll(paginationQuery);
+
     if (req.header("HX-Trigger") === "back-to-home-anchor") {
       // we want to use hx-boost functionality that will replace body HTML
+      res.header("HX-Boost", "true");
       return res.status(200).send(eta.render("homePage/index", data));
-    } else if (req.header("HX-Request") && !deleted) {
+    } else if (req.header("HX-Request") && !req.session.fromDeleteRedirect) {
       // if htmx is making the request, and it's not a delete redirect, send a partial
       return res
         .status(200)
         .send(eta.render("homePage/partials/tableAndPagination", data));
-    } else if (deleted) {
+    } else if (req.session.fromDeleteRedirect) {
+      // set to false otherwise all page refreshes will include the deleted toast
+      req.session.fromDeleteRedirect = false;
       // if coming from a DELETE redirect, add a deleted message for a toast message
       data = { ...data, message: "User successfully deleted" };
     }
@@ -78,11 +86,13 @@ export class UsersController {
 
   @Delete(":id")
   async remove(
+    @Req() req: Request,
     @Param("id", new ParseUUIDPipe()) id: string,
     @Res() res: Response,
   ) {
-    res.set("HX-Redirect", "/users?deleted=true");
+    res.set("HX-Redirect", "/users");
     await this.usersService.remove(id);
+    req.session.fromDeleteRedirect = true;
     return res.status(204).send("");
   }
 }

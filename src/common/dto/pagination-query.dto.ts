@@ -26,8 +26,5 @@ export class PaginationQueryDto {
   searchTerm: string;
 
   @IsOptional()
-  deleted: boolean;
-
-  @IsOptional()
   message: string;
 }
