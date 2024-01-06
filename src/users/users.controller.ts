@@ -10,6 +10,7 @@ import {
   Res,
   Req,
   Put,
+  UseFilters,
 } from "@nestjs/common";
 import { Response, Request } from "express";
 import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
@@ -17,6 +18,7 @@ import { eta } from "../resources/templateEngine";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UsersService } from "./users.service";
+import { UserCreationValidator } from "./validators/user-creation.validator";
 
 declare module "express-session" {
   interface SessionData {
@@ -65,16 +67,22 @@ export class UsersController {
   }
 
   @Post()
+  @UseFilters(UserCreationValidator)
   async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
-    await this.usersService.create(createUserDto);
-    return res.status(201).send(
-      eta.render("homePage/partials/toast", {
-        message: "User successfully created",
-      }),
-    );
+    try {
+      await this.usersService.create(createUserDto);
+      return res.status(201).send(
+        eta.render("homePage/partials/toast", {
+          message: "User successfully created",
+        }),
+      );
+    } catch (e) {
+      console.error("error!", e);
+    }
   }
 
   @Put(":id")
+  @UseFilters(UserCreationValidator)
   async update(
     @Param("id", new ParseUUIDPipe()) id: string,
     @Body() updateUserDto: UpdateUserDto,

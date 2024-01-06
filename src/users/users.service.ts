@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { validate } from "class-validator";
 import { FindOperator, ILike, Repository } from "typeorm";
 import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -113,8 +114,13 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const user = this.usersRepository.create(createUserDto);
-    return this.usersRepository.save(user);
+    try {
+      const user = this.usersRepository.create(createUserDto);
+      // await validate(user);
+      return this.usersRepository.save(user);
+    } catch (e) {
+      console.error("Error creating user:", e);
+    }
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {

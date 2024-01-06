@@ -35,3 +35,7 @@
 #htmx-user-form input {
     min-width: 100%;
 }
+
+.error-message {
+    color: red;
+}

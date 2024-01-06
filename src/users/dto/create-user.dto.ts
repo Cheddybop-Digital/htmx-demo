@@ -4,21 +4,24 @@ import {
   IsUrl,
   IsOptional,
   ValidateIf,
+  IsNotEmpty,
 } from "class-validator";
 
 export class CreateUserDto {
+  @IsNotEmpty()
   @IsString()
   readonly firstName: string;
 
+  @IsNotEmpty()
   @IsString()
   readonly lastName: string;
 
   @IsEmail()
-  @IsOptional()
+  @IsNotEmpty()
   readonly email: string;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   readonly phoneNumber: string;
 
   @IsUrl()

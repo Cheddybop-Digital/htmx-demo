@@ -1,6 +1,5 @@
 <form hx-<%= it.type === "create" ? "post" : "put" %>="/users<%= it.type === "create" ? "" : "/" + it.user.id %>"
       class="form-control"
-      hx-on--after-request="user_<%= it.type %>_modal.close();document.getElementById('htmx-user-form')?.reset()"
       hx-target="<%= it.type === "edit" ? "#user" : "body" %>"
       hx-swap="<%= it.type === "edit" ? "innerHTML" : "afterbegin" %>"
       id="htmx-user-form">
@@ -10,8 +9,9 @@
         <input type="text"
                name="firstName"
                id="firstName"
-               value="<%= it.type === "edit" ? it.user.firstName : '' %>"
+               value="<%= it?.user?.firstName ?? '' %>"
                class="input input-bordered" />
+        <small class="error-message"><%= it?.errors?.firstName ?? "" %></small>
     </label>
     <!--  last name-->
     <label class="form-control w-full my-2">
@@ -19,8 +19,9 @@
         <input type="text"
                name="lastName"
                id="lastName"
-               value="<%= it.type === "edit" ? it.user.lastName : '' %>"
+               value="<%= it?.user?.lastName ?? '' %>"
                class="input input-bordered w-full" />
+        <small class="error-message"><%= it?.errors?.lastName ?? "" %></small>
     </label>
     <!--  email name-->
     <label class="form-control w-full my-2">
@@ -28,8 +29,12 @@
         <input type="email"
                name="email"
                id="email"
-               value="<%= it.type === "edit" ? it.user.email : '' %>"
+               value="<%= it?.user?.email ?? '' %>"
                class="input input-bordered w-full" />
+        <small class="error-message"><%= it?.errors?.email.reduce((accum, str) => {
+                accum += ` ${str}`
+                return accum
+            }, "") ?? "" %></small>
     </label>
     <!--  phone name-->
     <label class="form-control w-full my-2">
@@ -37,17 +42,19 @@
         <input type="tel"
                name="phoneNumber"
                id="phoneNumber"
-               value="<%= it.type === "edit" ? it.user.phoneNumber : '' %>"
+               value="<%= it?.user?.phoneNumber ?? '' %>"
                class="input input-bordered w-full" />
+        <small class="error-message"><%= it?.errors?.phoneNumber ?? "" %></small>
     </label>
     <!--  avatar url name-->
     <label class="form-control w-full my-2">
         <span class="label-text">Avatar URL</span>
-        <input type="tel"
+        <input type="text"
                name="avatarUrl"
                id="avatarUrl"
-               value="<%= it.type === "edit" ? it.user.avatarUrl : '' %>"
+               value="<%= it?.user?.avatarUrl ?? '' %>"
                class="input input-bordered w-full" />
+        <small class="error-message"><%= it?.errors?.avatarUrl ?? "" %></small>
     </label>
     <!--  submit button-->
     <div class="block">

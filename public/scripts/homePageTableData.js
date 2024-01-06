@@ -1,8 +1,6 @@
-// * Create a namespace on the window and assign to a convenient variable
-tableData = window.tableData;
-
-// * add data and functions/behavior to the namespace
-tableData = {
+//
+// * create namespace add data and functions/behavior to the namespace
+const tableData = {
   _sortDir: "",
   _sortField: "",
 

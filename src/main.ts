@@ -1,4 +1,8 @@
-import { ValidationPipe } from "@nestjs/common";
+import {
+  BadRequestException,
+  ValidationError,
+  ValidationPipe,
+} from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { join } from "path";
@@ -10,10 +14,20 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true, // transforms POST body to a DTO class
+      enableDebugMessages: true,
+      transform: true, //  transforms POST body to a DTO class
       transformOptions: {
         enableImplicitConversion: true,
+      },
+      exceptionFactory: (validationErrors: ValidationError[] = []) => {
+        return new BadRequestException(
+          validationErrors.map((error: ValidationError) => {
+            return {
+              [error.property]: error.property,
+              message: Object.values(error.constraints).join(", "),
+            };
+          }),
+        );
       },
     }),
   );
