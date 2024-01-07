@@ -1,6 +1,6 @@
 <form hx-<%= it.type === "create" ? "post" : "put" %>="/users<%= it.type === "create" ? "" : "/" + it.user.id %>"
       class="form-control"
-      hx-target="<%= it.type === "edit" ? "#user" : "body" %>"
+      hx-target="body"
       hx-swap="<%= it.type === "edit" ? "innerHTML" : "afterbegin" %>"
       id="htmx-user-form">
     <!--  first name-->

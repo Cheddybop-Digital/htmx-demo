@@ -7,7 +7,7 @@ import {
 import { handleExceptionAndRenderTemplate } from "../utils";
 
 @Catch()
-export class UserCreationValidator<T> implements ExceptionFilter {
+export class UserValidator<T> implements ExceptionFilter {
   catch(exception: T, host: ArgumentsHost) {
     if (exception instanceof BadRequestException) {
       const res = host.switchToHttp().getResponse();

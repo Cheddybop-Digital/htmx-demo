@@ -18,7 +18,7 @@ import { eta } from "../resources/templateEngine";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UsersService } from "./users.service";
-import { UserCreationValidator } from "./validators/user-creation.validator";
+import { UserValidator } from "./validators/user.validator";
 
 declare module "express-session" {
   interface SessionData {
@@ -37,22 +37,29 @@ export class UsersController {
     @Res() res: Response,
   ) {
     let data = await this.usersService.findAll(paginationQuery);
+    const fromUserDetailsBackButton =
+      req.header("HX-Trigger") === "back-to-home-anchor";
+    const regularGetUsersRequest =
+      req.header("HX-Request") && !req.session.fromDeleteRedirect;
+    const requestFromDeleteRedirect = req.session.fromDeleteRedirect;
 
-    if (req.header("HX-Trigger") === "back-to-home-anchor") {
+    if (fromUserDetailsBackButton) {
       // we want to use hx-boost functionality that will replace body HTML
       res.header("HX-Boost", "true");
       return res.status(200).send(eta.render("homePage/index", data));
-    } else if (req.header("HX-Request") && !req.session.fromDeleteRedirect) {
-      // if htmx is making the request, and it's not a delete redirect, send a partial
+    } else if (regularGetUsersRequest) {
+      // if htmx is making the request (from pagination, sorting, or column search),
+      // and it's not a delete redirect, send a partial
       return res
         .status(200)
         .send(eta.render("homePage/partials/tableAndPagination", data));
-    } else if (req.session.fromDeleteRedirect) {
+    } else if (requestFromDeleteRedirect) {
       // set to false otherwise all page refreshes will include the deleted toast
       req.session.fromDeleteRedirect = false;
       // if coming from a DELETE redirect, add a deleted message for a toast message
       data = { ...data, message: "User successfully deleted" };
     }
+
     // if this is a page load, serve the whole page
     return res.status(200).send(eta.render("homePage/index", data));
   }
@@ -67,29 +74,25 @@ export class UsersController {
   }
 
   @Post()
-  @UseFilters(UserCreationValidator)
+  @UseFilters(UserValidator)
   async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
-    try {
-      await this.usersService.create(createUserDto);
-      return res.status(201).send(
-        eta.render("homePage/partials/toast", {
-          message: "User successfully created",
-        }),
-      );
-    } catch (e) {
-      console.error("error!", e);
-    }
+    await this.usersService.create(createUserDto);
+    return res.status(201).send(
+      eta.render("homePage/partials/toast", {
+        message: "User successfully created",
+      }),
+    );
   }
 
   @Put(":id")
-  @UseFilters(UserCreationValidator)
+  @UseFilters(UserValidator)
   async update(
     @Param("id", new ParseUUIDPipe()) id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Res() res: Response,
   ) {
     const user = await this.usersService.update(id, updateUserDto);
-    return res.status(200).send(eta.render("users/userDetails", { user }));
+    return res.status(200).send(eta.render("users/userDetailsPage", { user }));
   }
 
   @Delete(":id")

@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="/styles/global-styles.css" rel="stylesheet">
     <script src="https://unpkg.com/htmx.org@1.9.8"></script>
+    <script defer src="/scripts/userFormEventHandlers.js"></script>
 </head>
 <body>
 <main class="fade-in">
@@ -20,5 +21,6 @@
     </div>
     <% ~include("./userDetails.eta", it) %>
 </main>
+<% ~include("../modals/userModal.eta", { type: "edit", user: it.user }) %>
 </body>
 </html>

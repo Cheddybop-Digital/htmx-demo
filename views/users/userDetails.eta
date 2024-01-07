@@ -21,4 +21,3 @@
         </button>
     </div>
 </div>
-<% ~include("../modals/createUserModal.eta", { type: "edit", user: it.user }) %>

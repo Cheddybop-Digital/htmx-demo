@@ -77,13 +77,11 @@ export function handleExceptionAndRenderTemplate(
       errors,
     };
 
-    if (path === "/users/:id") templateData.user.id = path === "/users/:id";
-
     res.set("HX-Retarget", "#htmx-user-form");
     res.set("HX-Reswap", "innerHTML");
 
     return res
       .status(207)
-      .send(eta.render("modals/createUserForm", templateData));
+      .send(eta.render("modals/userModalForm", templateData));
   }
 }

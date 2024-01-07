@@ -27,7 +27,7 @@
 
     <% ~include("./partials/tableAndPagination.eta", it); %>
 
-    <% ~include("../modals/createUserModal.eta", { type: "create" }); %>
+    <% ~include("../modals/userModal.eta", { type: "create" }); %>
 </main>
 </body>
 </html>
