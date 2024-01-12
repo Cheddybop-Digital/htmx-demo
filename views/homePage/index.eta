@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html data-theme="light" lang="en">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>HTMX Demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.16/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-
+    <link href="/styles/tailwind.css" rel="stylesheet">
+    <link href="/styles/style.css" rel="stylesheet">
     <link href="/styles/global-styles.css" rel="stylesheet">
     <link href="/styles/table.css" rel="stylesheet">
     <script defer src="/scripts/homePageTableData.js"></script>
