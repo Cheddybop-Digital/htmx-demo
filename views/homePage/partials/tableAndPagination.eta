@@ -6,6 +6,10 @@
         <button
                 class="btn btn-secondary btn-xs mb-4"
                 onclick="tableData.clearFilters()"
+                hx-get="/users"
+                hx-boost="true"
+                hx-push-url="true"
+                hx-target="#table"
                 style="animation: none;"
         >Clear filters
         </button>
